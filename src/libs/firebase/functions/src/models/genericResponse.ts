@@ -45,19 +45,19 @@
 export interface ApiResponse<T = any> {
     /** Indicates if the request was successful */
     success: boolean;
-    
+
     /** Response data payload */
     data: T;
-    
+
     /** Human-readable message */
     message: string;
-    
+
     /** Response timestamp in ISO format */
     timestamp: string;
-    
+
     /** Total count of items (useful for pagination/search results) */
     count: number;
-    
+
     /** Error details (only present when success = false) */
     error?: {
         code: string;
@@ -116,7 +116,7 @@ export function createErrorResponse(
 export interface SearchResponse<T> extends ApiResponse<T[]> {
     /** Search query that was executed */
     query: string;
-    
+
     /** Search execution time in milliseconds */
     executionTime: number;
 }
@@ -134,7 +134,7 @@ export function createSearchResponse<T>(
     executionTime: number,
     message?: string
 ): SearchResponse<T> {
-    const defaultMessage = data.length > 0 
+    const defaultMessage = data.length > 0
         ? `Found ${data.length} result${data.length === 1 ? '' : 's'} for "${query}"`
         : `No results found for "${query}"`;
 

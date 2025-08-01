@@ -20,10 +20,21 @@ async function getMeals(query?: string): Promise<Meal[]> {
 }
 
 export const mealSearch = onRequest(async (request, response) => {
+    // Set CORS headers
+    response.set('Access-Control-Allow-Origin', '*');
+    response.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    response.set('Access-Control-Allow-Headers', 'Content-Type');
+
+    // Handle preflight OPTIONS request
+    if (request.method === 'OPTIONS') {
+        response.status(204).send('');
+        return;
+    }
+
     try {
         const startTime = Date.now();
         const query = request.query?.find as string;
-        
+
         // Validate query parameter
         if (!query) {
             const errorResponse = createErrorResponse(
@@ -36,7 +47,7 @@ export const mealSearch = onRequest(async (request, response) => {
 
         const meals = await getMeals(query);
         const executionTime = Date.now() - startTime;
-        
+
         const searchResponse: SearchResponse<Meal> = createSearchResponse(
             meals,
             query,
@@ -50,7 +61,7 @@ export const mealSearch = onRequest(async (request, response) => {
             "INTERNAL_ERROR",
             error instanceof Error ? error.message : "Unknown error"
         );
-        
+
         response.status(500).json(errorResponse);
     }
 });
