@@ -1,5 +1,5 @@
 import { VStack } from "@chakra-ui/react";
-import { SearchExample } from "components/SearchExample";
+import { SearchBox } from "components/SearchBox";
 
 function App() {
     return (
@@ -9,7 +9,7 @@ function App() {
             alignItems="start"
             justifyContent="center"
         >
-            <SearchExample />
+            <SearchBox />
         </VStack>
     );
 }

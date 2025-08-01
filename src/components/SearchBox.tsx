@@ -36,7 +36,7 @@ function useDebounceValue(value: string, delay: number) {
     return debouncedValue;
 }
 
-export function SearchExample() {
+export function SearchBox() {
     const [drinkQuery, setDrinkQuery] = useState("");
     const [mealQuery, setMealQuery] = useState("");
     const [combinedQuery, setCombinedQuery] = useState("");
