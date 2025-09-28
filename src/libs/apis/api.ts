@@ -26,13 +26,19 @@ async function apiCall<T>(url: string, signal?: AbortSignal): Promise<T> {
 }
 
 export const api = {
-    searchDrinks: (query: string, signal?: AbortSignal): Promise<DrinkResponse> => {
+    searchDrinks: async (query: string, signal?: AbortSignal): Promise<DrinkResponse> => {
         const url = `${ENDPOINTS.DRINKS}?find=${encodeURIComponent(query)}`;
-        return apiCall<DrinkResponse>(url, signal);
+        const start = performance.now();
+        const data = await apiCall<DrinkResponse>(url, signal);
+        const rttMs = Math.round(performance.now() - start);
+        return { ...data, executionTime: Math.max(data.executionTime ?? 0, rttMs) };
     },
 
-    searchMeals: (query: string, signal?: AbortSignal): Promise<MealResponse> => {
+    searchMeals: async (query: string, signal?: AbortSignal): Promise<MealResponse> => {
         const url = `${ENDPOINTS.MEALS}?find=${encodeURIComponent(query)}`;
-        return apiCall<MealResponse>(url, signal);
+        const start = performance.now();
+        const data = await apiCall<MealResponse>(url, signal);
+        const rttMs = Math.round(performance.now() - start);
+        return { ...data, executionTime: Math.max(data.executionTime ?? 0, rttMs) };
     },
 };
